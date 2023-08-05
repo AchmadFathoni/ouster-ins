@@ -49,11 +49,11 @@ def generate_launch_description():
             handle_once=True
         )
     )
-    topics = ['/ouster/lidar_packtes', '/ouster/metadata', '/odom_ins_enu']
+    topics = ['/ouster/lidar_packets', '/ouster/metadata', '/odom_ins_enu']
     record = ExecuteProcess(
         cmd = ['ros2', 'bag', 'record'] + topics,
         output = 'screen'
     )
     return LaunchDescription([
-        ins, lidar, record, lidar_configure_event, lidar_activate_event
+        ins, lidar, lidar_configure_event, lidar_activate_event, record
     ])
