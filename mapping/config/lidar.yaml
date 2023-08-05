@@ -1,0 +1,13 @@
+ouster/os_sensor:
+  ros__parameters:
+    sensor_hostname: '169.254.99.39'
+    udp_dest: '169.254.203.183'
+    mtp_dest: ''
+    mtp_main: false
+    lidar_mode: ''
+    timestamp_mode: ''
+    udp_profile_lidar: ''
+    metadata: ''
+    lidar_port: 7502
+    imu_port: 7503
+    use_system_default_qos: False
