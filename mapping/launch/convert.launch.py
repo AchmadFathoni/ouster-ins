@@ -17,7 +17,7 @@ def generate_launch_description():
     )
 
     record = ExecuteProcess(
-        cmd = ['ros2', 'bag', 'record', '/odom_ins_enu', '/ouster/points', '--disable-keyboard-controls'],
+        cmd = ['ros2', 'bag', 'record', '/odom_ins_enu', '/ouster/points'],
         output = 'screen'
     )
 
