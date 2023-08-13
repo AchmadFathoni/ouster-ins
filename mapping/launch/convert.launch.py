@@ -8,12 +8,11 @@ from launch.launch_description_sources import AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_path
 
 def generate_launch_description():
-    bag_file = LaunchConfiguration('bag_file')
     lidar = IncludeLaunchDescription(
         AnyLaunchDescriptionSource([
             os.path.join(get_package_share_path('ouster_ros'), 'launch/replay.composite.launch.xml')
         ]),
-        launch_arguments={'bag_file': bag_file, 'viz': 'False'}.items()
+        launch_arguments={'bag_file': LaunchConfiguration('bag_file'), 'viz': 'False'}.items()
     )
 
     record = ExecuteProcess(

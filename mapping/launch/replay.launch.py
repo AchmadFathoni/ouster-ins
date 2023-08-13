@@ -14,7 +14,10 @@ def generate_launch_description():
         AnyLaunchDescriptionSource([
             os.path.join(get_package_share_path('ouster_ros'), 'launch/replay.composite.launch.xml')
         ]),
-        launch_arguments={'bag_file': LaunchConfiguration('bag_file')}.items()
+        launch_arguments={
+            'bag_file': LaunchConfiguration('bag_file'),
+            'rviz_config': os.path.join(get_package_share_path('ouster_ros'), 'config/my.rviz')
+        }.items()
     )
 
     odom = Node(
@@ -28,7 +31,10 @@ def generate_launch_description():
         package="tf2_ros",
         executable="static_transform_publisher",
         output="screen" ,
-        arguments=["-0.05", "0", "-0.9", str(half_pi), "0", str(-half_pi), "base_link", "os_sensor"]
+        arguments=[
+            "--x", "-0.05", "--y", "0", "--z", "-0.9",
+            "--roll", str(half_pi), "--pitch", "0", "--yaw", str(-half_pi),
+            "--frame-id", "base_link", "--child-frame-id", "os_sensor"]
     )
     return LaunchDescription([
         lidar, odom, tf
