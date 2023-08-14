@@ -10,4 +10,3 @@ ouster/os_sensor:
     metadata: ''
     lidar_port: 7502
     imu_port: 7503
-    use_system_default_qos: False
