@@ -1,3 +1,5 @@
+import sys
+
 from rosbags.rosbag2 import Reader, Writer
 from rosbags.serde import deserialize_cdr, serialize_cdr
 from rosbags.typesys.types import sensor_msgs__msg__PointCloud2 as PointCloud2
@@ -16,7 +18,7 @@ class BagWriter:
             time = msg.header.stamp.sec * 1e9 + msg.header.stamp.nanosec
             self.writer.write(self.connection, time, serialize_cdr(msg, self.type))
 
-bag_file='/home/toni/Documents/source/ros2/ins_ws/rosbag2_2023_08_05-22_00_26'
+bag_file = sys.argv[1]
 with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
     lidar_writer = BagWriter(writer, '/ouster/points', PointCloud2.__msgtype__)
     ins_writer = BagWriter(writer, '/odom_ins_enu', Odometry.__msgtype__)
