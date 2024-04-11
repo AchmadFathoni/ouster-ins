@@ -1,19 +1,22 @@
-#usage: python3 reindex my_bag
-#this will reindex ROS message by message's timestamp and offset the GPS using first GPS position message
-#depend on https://pypi.org/project/rosbags
+"""
+usage: python3 reindex my_bag
+This will reindex ROS message by message's timestamp and offset the GPS using first GPS position message.
+depend on https://pypi.org/project/rosbags 0.9.22
+"""
 import sys
 
 from rosbags.rosbag2 import Reader, Writer
-from rosbags.serde import deserialize_cdr, serialize_cdr
-from rosbags.typesys.types import sensor_msgs__msg__PointCloud2 as PointCloud2
-from rosbags.typesys.types import nav_msgs__msg__Odometry as Odometry
+from rosbags.typesys import Stores, get_typestore
 
 lidar_topic = '/ouster/points'
 ins_topic = '/odom_ins_enu'
+typestore = get_typestore(Stores.ROS2_HUMBLE)
+Odometry = typestore.types['nav_msgs/msg/Odometry']
+PointCloud2 = typestore.types['sensor_msgs/msg/PointCloud2']
 
 class BagWriter:
     def __init__(self, writer, topic, type):
-        self.connection = writer.add_connection(topic, type)
+        self.connection = writer.add_connection(topic, type.__msgtype__, typestore = typestore)
         self.writer = writer
         self.topic = topic
         self.type = type
@@ -21,7 +24,7 @@ class BagWriter:
 
     def write(self, connection, rawdata):
         if connection.topic == self.topic:
-            msg = deserialize_cdr(rawdata, connection.msgtype)
+            msg = typestore.deserialize_cdr(rawdata, connection.msgtype)
             time = msg.header.stamp.sec * 1e9 + msg.header.stamp.nanosec
             if self.topic == ins_topic:
                 position = msg.pose.pose.position
@@ -34,12 +37,12 @@ class BagWriter:
                 position.y -= self.first_point["y"]
                 position.z -= self.first_point["z"]
                 msg.pose.pose.position = position
-            self.writer.write(self.connection, time, serialize_cdr(msg, self.type))
+            self.writer.write(self.connection, time, typestore.serialize_cdr(msg, connection.msgtype))
 
 bag_file = sys.argv[1]
 with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
-    lidar_writer = BagWriter(writer, lidar_topic, PointCloud2.__msgtype__)
-    ins_writer = BagWriter(writer, ins_topic, Odometry.__msgtype__)
+    lidar_writer = BagWriter(writer, lidar_topic, PointCloud2)
+    ins_writer = BagWriter(writer, ins_topic, Odometry)
     for conn, timestamp, rawdata in reader.messages():
         lidar_writer.write(conn, rawdata)
         ins_writer.write(conn, rawdata)
