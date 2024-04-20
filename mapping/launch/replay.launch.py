@@ -23,7 +23,7 @@ def generate_launch_description():
     odom = Node(
         package = 'odom_to_tf_ros2',
         executable = 'odom_to_tf',
-        parameters = [os.path.join(get_package_share_path('odom_to_tf_ros2'), 'config/odom_to_tf.yaml')],
+        parameters = [os.path.join(get_package_share_path('mapping'), 'config/odom_to_tf.yaml')],
     )
 
     half_pi = math.pi / 2

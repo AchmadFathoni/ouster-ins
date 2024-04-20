@@ -4,6 +4,3 @@
 [submodule "ouster-ros"]
 	path = ouster-ros
 	url = git@github.com:AchmadFathoni/ouster-ros.git
-[submodule "odom_to_tf_ros2"]
-	path = odom_to_tf_ros2
-	url = git@github.com:AchmadFathoni/odom_to_tf_ros2.git
