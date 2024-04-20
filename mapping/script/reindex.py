@@ -37,6 +37,7 @@ class BagWriter:
                 position.y -= self.first_point["y"]
                 position.z -= self.first_point["z"]
                 msg.pose.pose.position = position
+                msg.child_frame_id = "base_link"
             self.writer.write(self.connection, time, typestore.serialize_cdr(msg, connection.msgtype))
 
 bag_file = sys.argv[1]
