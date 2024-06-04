@@ -17,7 +17,8 @@ def generate_launch_description():
         launch_arguments={
             'bag_file': LaunchConfiguration('bag_file'),
             'bag_offset': LaunchConfiguration('bag_offset'),
-            'rviz_config': os.path.join(get_package_share_path('ouster_ros'), 'config/my.rviz')
+            'viz': LaunchConfiguration('viz', default=True),
+            'rviz_config': LaunchConfiguration('rviz_config', default=os.path.join(get_package_share_path('mapping'), 'config/replay.rviz'))
         }.items()
     )
 
