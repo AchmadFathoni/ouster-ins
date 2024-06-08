@@ -19,6 +19,14 @@ ament_target_dependencies(pcl_filter
 )
 target_link_libraries(pcl_filter ${PCL_LIBRARIES})
 
+add_executable(save_pointcloud src/save_pointcloud.cpp)
+ament_target_dependencies(save_pointcloud
+  rclcpp 
+  sensor_msgs
+  pcl_conversions
+)
+target_link_libraries(save_pointcloud ${PCL_LIBRARIES})
+
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
-install(TARGETS pcl_filter DESTINATION lib/${PROJECT_NAME})
+install(TARGETS pcl_filter save_pointcloud DESTINATION lib/${PROJECT_NAME})
 ament_package()
