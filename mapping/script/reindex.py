@@ -8,7 +8,7 @@ import sys
 from rosbags.rosbag2 import Reader, Writer
 from rosbags.typesys import Stores, get_typestore
 
-lidar_topic = '/ouster/points'
+lidar_topic = '/filtered'
 ins_topic = '/odom_ins_enu'
 typestore = get_typestore(Stores.ROS2_HUMBLE)
 Odometry = typestore.types['nav_msgs/msg/Odometry']

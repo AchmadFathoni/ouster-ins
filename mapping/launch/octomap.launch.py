@@ -31,7 +31,7 @@ def generate_launch_description():
             {'latch': False},
         ],
         remappings=[
-            ('cloud_in','ouster/points')
+            ('cloud_in','/filtered')
         ]
     )
 
