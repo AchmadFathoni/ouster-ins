@@ -8,6 +8,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(PCL REQUIRED)
 
@@ -23,6 +24,7 @@ add_executable(save_pointcloud src/save_pointcloud.cpp)
 ament_target_dependencies(save_pointcloud
   rclcpp 
   sensor_msgs
+  std_srvs
   pcl_conversions
 )
 target_link_libraries(save_pointcloud ${PCL_LIBRARIES})

@@ -35,6 +35,15 @@ def generate_launch_description():
         ]
     )
 
+    pcl_saver = Node(
+        package='mapping',
+        executable='save_pointcloud',
+        name='pcl_saver',
+        parameters=[
+            {'save_pointcloud.topic': '/octomap_point_cloud_centers'},
+        ],
+    )
+
     return LaunchDescription([
-        replay, octomap
+        replay, octomap, pcl_saver
     ])
