@@ -2,30 +2,37 @@ import os
 import math
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch.launch_description_sources import AnyLaunchDescriptionSource
-from launch_ros.actions import Node
+from launch.actions import ExecuteProcess
+from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.conditions import IfCondition
+from launch_ros.actions.node import Node
 
 from ament_index_python.packages import get_package_share_path
 
 def generate_launch_description():
-    lidar = IncludeLaunchDescription(
-        AnyLaunchDescriptionSource([
-            os.path.join(get_package_share_path('ouster_ros'), 'launch/replay.composite.launch.xml')
-        ]),
-        launch_arguments={
-            'bag_file': LaunchConfiguration('bag_file'),
-            'bag_offset': LaunchConfiguration('bag_offset'),
-            'viz': LaunchConfiguration('viz', default=True),
-            'rviz_config': LaunchConfiguration('rviz_config', default=os.path.join(get_package_share_path('mapping'), 'config/replay.rviz'))
-        }.items()
+    file = LaunchConfiguration("file")
+    offset = LaunchConfiguration("offset", default=0.01)
+    viz = LaunchConfiguration("viz", default=False)
+    config = LaunchConfiguration(
+        "config", default=os.path.join(get_package_share_path('mapping'), 'config/octomap.rviz')
     )
 
-    odom = Node(
-        package = 'odom_to_tf_ros2',
-        executable = 'odom_to_tf',
-        parameters = [os.path.join(get_package_share_path('mapping'), 'config/odom_to_tf.yaml')],
+    bag = ExecuteProcess(
+        cmd=[
+            "ros2", "bag", "play", file, "--start-offset", offset 
+        ],
+        output="screen"
+    )
+
+    rviz = Node(
+        condition=IfCondition(PythonExpression([
+           viz, " == True" 
+        ])),
+        package="rviz2",
+        executable="rviz2",
+        arguments=[
+            "-d", config
+        ]
     )
 
     half_pi = math.pi / 2
@@ -55,6 +62,7 @@ def generate_launch_description():
             "--roll", "0", "--pitch", "0", "--yaw", str(math.pi),
             "--frame-id", "os_sensor", "--child-frame-id", "os_lidar"]
     )
+
     return LaunchDescription([
-        lidar, odom, base_sensor_tf, sensor_lidar_tf
+        bag, rviz, base_sensor_tf, sensor_lidar_tf
     ])

@@ -14,10 +14,10 @@ def generate_launch_description():
             os.path.join(get_package_share_path('mapping'), 'launch/replay.launch.py')
         ]),
         launch_arguments={
-            'bag_file': LaunchConfiguration('bag_file'),
-            'bag_offset': LaunchConfiguration('bag_offset'),
+            'file': LaunchConfiguration('bag_file'),
+            'offset': LaunchConfiguration('bag_offset'),
             'viz': LaunchConfiguration('viz', default=False),
-            'rviz_config': os.path.join(get_package_share_path('mapping'), 'config/octomap.rviz')
+            'config': os.path.join(get_package_share_path('mapping'), 'config/octomap.rviz')
         }.items()
     )
 
