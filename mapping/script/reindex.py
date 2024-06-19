@@ -17,9 +17,7 @@ Transform= typestore.types['geometry_msgs/msg/Transform']
 TransformStamped = typestore.types['geometry_msgs/msg/TransformStamped']
 Vector = typestore.types['geometry_msgs/msg/Vector3']
 Quat = typestore.types['geometry_msgs/msg/Quaternion']
-tf2_static_msg = []
 first_point = {"x": 0, "y": 0, "z": 0, "initiated": False}
-first_time = 0
 
 bag_file = sys.argv[1]
 with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
@@ -36,7 +34,6 @@ with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
                 first_point["y"] = position.y
                 first_point["z"] = position.z
                 first_point["initiated"] = True
-                first_time = time
             position.x -= first_point["x"]
             position.y -= first_point["y"]
             position.z -= first_point["z"]
