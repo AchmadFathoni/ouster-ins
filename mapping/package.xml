@@ -16,6 +16,11 @@
   <depend>std_srvs</depend>
   <depend>pcl_conversions</depend>
 
+  <exec_depend>python3-rosbags-pip</exec_depend>
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
+  <exec_depend>python-transforms3d-pip</exec_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

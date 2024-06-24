@@ -1,0 +1,15 @@
+{
+  "configurations": {
+    "<name>: Launch": {
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "configuration": {
+        "type": "python",
+        "program": "${file}",
+        "request": "launch",
+        "python": "/usr/bin/python3",
+        "args": ["/home/toni/Documents/source/ros2/mapping/data/rosbag2_2023_11_22-05_00_52_converted"]
+      }
+    }
+  }
+}
