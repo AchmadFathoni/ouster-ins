@@ -43,7 +43,7 @@ def launch_setup(context):
     )
 
     return [
-        lidar, record, pcl_filter
+        record, pcl_filter, lidar
     ]
 
 def generate_launch_description():

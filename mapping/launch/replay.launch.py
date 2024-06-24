@@ -64,5 +64,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        bag, rviz, base_sensor_tf, sensor_lidar_tf
+        rviz, base_sensor_tf, sensor_lidar_tf, bag
     ])

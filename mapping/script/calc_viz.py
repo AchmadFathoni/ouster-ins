@@ -1,6 +1,6 @@
 """
 Visualize ros2 bag odometry in 3D
-usage: python3 calc_viz.py {bag_file}
+usage: python3 calc_viz.py {raw bag_file that contains /odom_ins_enu topic}
 """
 
 import sys
@@ -18,7 +18,7 @@ def linearize(angles : list[float]):
         if i == 0: continue
         angle_prev = angles[i-1]
         if last_discontinuity:
-            if abs(angle - angles[last_discontinuity]) < 180: 
+            if abs(angle - angles[last_discontinuity]) < 180:
                 last_discontinuity = None
             else:
                 angle_prev = angles[last_discontinuity]
@@ -80,7 +80,7 @@ ax4.plot(yw,label='Yaw')
 
 linearize(yw)
 yw = np.array(yw)
-# yw = gaussian_filter1d(yw, sigma=10)
+yw = gaussian_filter1d(yw, sigma=10)
 ax4.plot(yw,label='Filtered Yaw')
 ax4.legend()
 

@@ -26,6 +26,23 @@ bag_file = sys.argv[1]
 def header_time(header):
     return header.stamp.sec * 10**9 + header.stamp.nanosec
 
+#Linearize warped angle to eliminate discontinuity
+def linearize(angles : list[float]):
+    last_discontinuity = None
+    for i, angle in enumerate(angles):
+        if i == 0: continue
+        angle_prev = angles[i-1]
+        if last_discontinuity:
+            if abs(angle - angles[last_discontinuity]) < 180:
+                last_discontinuity = None
+            else:
+                angle_prev = angles[last_discontinuity]
+        if angle - angle_prev < -180.0:
+            angles[i] += 360.0
+            last_discontinuity = i
+        elif angle - angle_prev > 180.0:
+            angles[i] -= 360.0
+            last_discontinuity = i
 
 with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
     tf_conn = writer.add_connection("/tf", Tf2.__msgtype__, typestore=typestore)
@@ -59,9 +76,11 @@ with Reader(bag_file) as reader, Writer(bag_file+'_reindex') as writer:
     x = gaussian_filter1d(np.array(x), sigma=30)
     y = gaussian_filter1d(np.array(y), sigma=30)
     z = gaussian_filter1d(np.array(z), sigma=5)
-    r = gaussian_filter1d(np.array(r), sigma=0.5)
-    p = gaussian_filter1d(np.array(p), sigma=0.5)
-    ya = gaussian_filter1d(np.array(ya), sigma=10)
+    # Roll and pitch of INS is pretty good, often doesn't need gaussian filter.
+    # r = gaussian_filter1d(np.array(r), sigma=0.5)
+    # p = gaussian_filter1d(np.array(p), sigma=0.5)
+    linearize(ya)
+    ya = gaussian_filter1d(np.array(ya), sigma=20)
 
     #Konversi ke dari odom ke tf2
     for x_, y_, z_, r_, p_, ya_, msg_header in zip(x, y, z, r, p, ya, msg_headers):

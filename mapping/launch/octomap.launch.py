@@ -45,5 +45,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        replay, octomap, pcl_saver
+        octomap, pcl_saver, replay
     ])
