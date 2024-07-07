@@ -49,7 +49,7 @@ def generate_launch_description():
             handle_once=True
         )
     )
-    topics = ['/ouster/lidar_packets', '/ouster/metadata', '/odom_ins_enu']
+    topics = ['/ouster/lidar_packets', '/ouster/metadata', '/odom_ins_enu', '/ins_mag', '/ins_imu']
     record = ExecuteProcess(
         cmd = ['ros2', 'bag', 'record'] + topics,
         output = 'screen'
