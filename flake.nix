@@ -1,6 +1,6 @@
 {
   inputs = {
-    nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+    nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/nix-bot-ruCfCEothF";
     nixpkgs.follows = "nix-ros-overlay/nixpkgs";  # IMPORTANT!!!
   };
   outputs = { self, nix-ros-overlay, nixpkgs }:
@@ -15,7 +15,6 @@
           name = "Example project";
           packages = with pkgs;[
             colcon
-            pcl
             jsoncpp
             flatbuffers
             (with rosPackages.humble; buildEnv {
@@ -26,7 +25,7 @@
                     rviz2
                     rqt-graph
                     pcl-conversions
-                    tf2-eigen
+                    octomap-server
                 ];
             })
           ];

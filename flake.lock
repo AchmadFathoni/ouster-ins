@@ -24,16 +24,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1712797796,
-        "narHash": "sha256-SkCWsnJ6H+LbXt7PLroXCPlb0k52+EG7WKEXtWjuNbI=",
+        "lastModified": 1722000865,
+        "narHash": "sha256-76Fai5tmDdPYVA4dmdjnHh1o0agCDbIimyrVB0wmUgw=",
         "owner": "lopsided98",
         "repo": "nix-ros-overlay",
-        "rev": "e239e71fd2ce40ce1f7499328a4c92e9473fec88",
+        "rev": "1e10513693a7a24eae6b13c011d95018852312d0",
         "type": "github"
       },
       "original": {
         "owner": "lopsided98",
-        "ref": "master",
+        "ref": "nix-bot-ruCfCEothF",
         "repo": "nix-ros-overlay",
         "type": "github"
       }
